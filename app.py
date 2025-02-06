@@ -1,7 +1,7 @@
 import streamlit as st
 import joblib
 import numpy as np
-
+import pandas as pd
 # Load the trained model
 model = joblib.load('model_pipeline_RF.joblib')
 
