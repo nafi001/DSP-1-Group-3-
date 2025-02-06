@@ -55,11 +55,11 @@ st.markdown("### Enter Customer Details: :memo:")
 with st.expander("Customer Information :bust_in_silhouette:", expanded=True):
     col1, col2 = st.columns(2)
     with col1:
-        credit_score = st.number_input('Credit Score', min_value=350, max_value=850, value=600)
+        credit_score = st.number_input('Credit Score', min_value=350, max_value=1000, value=600)
         age = st.number_input('Age', min_value=18, max_value=100, value=30)
-        tenure = st.number_input('Tenure (years)', min_value=0, max_value=10, value=5)
+        tenure = st.number_input('Tenure (years)', min_value=0, max_value=15, value=5)
         balance = st.number_input('Balance', min_value=0.0, value=50000.0)
-        num_of_products = st.number_input('Number of Products', min_value=1, max_value=4, value=1)
+        num_of_products = st.number_input('Number of Products', min_value=1, max_value=10, value=1)
 
     with col2:
         geography = st.selectbox('Geography', ['France', 'Germany', 'Spain'])
