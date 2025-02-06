@@ -8,8 +8,7 @@ model = joblib.load('model_pipeline_RF.joblib')
 # Set page configuration for better design
 st.set_page_config(page_title="Customer Churn Prediction", layout="wide")
 
-# Title of the web app with a professional look
-st.title("Customer Churn Prediction")
+# Title of the web app with a professional look and icons
 st.markdown("""
     <style>
         .title {
@@ -36,17 +35,24 @@ st.markdown("""
             padding: 20px;
             margin-top: 10px;
         }
+        .icon {
+            color: #0E4D92;
+            font-size: 20px;
+        }
     </style>
 """, unsafe_allow_html=True)
 
-# Subtitle of the web app with better description
-st.markdown('<p class="subtitle">This web app predicts whether a customer will churn based on their details.</p>', unsafe_allow_html=True)
+# Title with icon
+st.title("Customer Churn Prediction " + ":chart_with_upwards_trend:")
+
+# Subtitle with a description and icon
+st.markdown('<p class="subtitle">This web app predicts whether a customer will churn based on their details. <i class="fas fa-info-circle"></i></p>', unsafe_allow_html=True)
 
 # Use an informative layout for the input fields
-st.markdown("### Enter Customer Details:")
+st.markdown("### Enter Customer Details: :memo:")
 
 # Use expanders for input sections to organize the inputs visually
-with st.expander("Customer Information", expanded=True):
+with st.expander("Customer Information :bust_in_silhouette:", expanded=True):
     col1, col2 = st.columns(2)
     with col1:
         credit_score = st.number_input('Credit Score', min_value=350, max_value=850, value=600)
@@ -80,13 +86,13 @@ input_data = pd.DataFrame({
 if st.button('Predict', use_container_width=True):
     prediction = model.predict(input_data)
     if prediction[0] == 1:
-        st.markdown('<p class="prediction-text">The customer is likely to churn.</p>', unsafe_allow_html=True)
+        st.markdown('<p class="prediction-text">The customer is likely to churn. <i class="fas fa-exclamation-triangle"></i></p>', unsafe_allow_html=True)
     else:
-        st.markdown('<p class="prediction-text">The customer is not likely to churn.</p>', unsafe_allow_html=True)
+        st.markdown('<p class="prediction-text">The customer is not likely to churn. <i class="fas fa-check-circle"></i></p>', unsafe_allow_html=True)
 
 # Add a footer section with developer information
 st.markdown('---')
-st.markdown('<p class="footer-text">Developed by Your Name</p>', unsafe_allow_html=True)
+st.markdown('<p class="footer-text">Developed by Your Name <i class="fas fa-laptop-code"></i></p>', unsafe_allow_html=True)
 
 # Optionally, you can add a logo or a professional image at the top
 # st.image("your_image_url.jpg", width=100)
