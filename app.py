@@ -23,17 +23,6 @@ has_cr_card = st.selectbox('Has Credit Card', ['Yes', 'No'])
 is_active_member = st.selectbox('Is Active Member', ['Yes', 'No'])
 estimated_salary = st.number_input('Estimated Salary', min_value=0.0, value=50000.0)
 
-# Convert categorical variables to numerical
-geography_dict = {'France': 0, 'Germany': 1, 'Spain': 2}
-gender_dict = {'Male': 0, 'Female': 1}
-has_cr_card_dict = {'Yes': 1, 'No': 0}
-is_active_member_dict = {'Yes': 1, 'No': 0}
-
-geography = geography_dict[geography]
-gender = gender_dict[gender]
-has_cr_card = has_cr_card_dict[has_cr_card]
-is_active_member = is_active_member_dict[is_active_member]
-
 # Prepare the input data for prediction
 input_data = pd.DataFrame({
     'CreditScore': [credit_score],
