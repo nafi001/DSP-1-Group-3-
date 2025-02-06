@@ -45,8 +45,8 @@ st.markdown('<p class="subtitle">This web app predicts whether a customer will c
 # Use an informative layout for the input fields
 st.markdown("### Enter Customer Details:")
 
-# Use cards for input sections to organize the inputs visually
-with st.beta_expander("Customer Information", expanded=True):
+# Use expanders for input sections to organize the inputs visually
+with st.expander("Customer Information", expanded=True):
     col1, col2 = st.columns(2)
     with col1:
         credit_score = st.number_input('Credit Score', min_value=350, max_value=850, value=600)
