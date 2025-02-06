@@ -5,7 +5,7 @@ import plotly.express as px
 # Load Dataset
 @st.cache_data
 def load_data():
-    df = pd.read_csv("customer_churn.csv")  # Replace with actual dataset path
+    df = pd.read_csv("Churn_Modelling.csv")  # Replace with actual dataset path
     return df
 
 df = load_data()
