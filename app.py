@@ -35,7 +35,18 @@ has_cr_card = has_cr_card_dict[has_cr_card]
 is_active_member = is_active_member_dict[is_active_member]
 
 # Prepare the input data for prediction
-input_data = np.array([[credit_score, geography, gender, age, tenure, balance, num_of_products, has_cr_card, is_active_member, estimated_salary]])
+input_data = pd.DataFrame({
+    'CreditScore': [credit_score],
+    'Geography': [geography],
+    'Gender': [gender],
+    'Age': [age],
+    'Tenure': [tenure],
+    'Balance': [balance],
+    'NumOfProducts': [num_of_products],
+    'HasCrCard': [has_cr_card],
+    'IsActiveMember': [is_active_member],
+    'EstimatedSalary': [estimated_salary]
+})
 
 # Make prediction
 if st.button('Predict'):
