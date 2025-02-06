@@ -3,7 +3,7 @@ import joblib
 import pandas as pd
 
 # Load the trained model
-model = joblib.load('model_pipeline_RF.joblib')
+model = joblib.load('model_pipeline_RF_2.joblib')
 
 # Set page configuration for better design
 st.set_page_config(page_title="Customer Churn Prediction", layout="wide")
