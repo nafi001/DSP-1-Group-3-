@@ -3,7 +3,7 @@ import joblib
 import numpy as np
 
 # Load the trained model
-model = joblib.load('model.joblib')
+model = joblib.load('model_pipeline_RF.joblib')
 
 # Title of the web app
 st.title('Customer Churn Prediction')
