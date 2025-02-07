@@ -25,7 +25,7 @@ df['Exited'] = df['Exited0'].replace({1: 'Yes', 0: 'No'})
 
 
 st.title("🔍 Customer Churn Insights: Understanding Key Drivers of Attrition")
-
+st.title("   ")
 def sunburst_chart():
     """Create a sunburst chart for churn rate by Geography and Gender."""
     churn_data = df.groupby(['Geography', 'Gender'])['Exited0'].mean().reset_index()
