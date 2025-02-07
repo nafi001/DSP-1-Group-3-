@@ -4,7 +4,7 @@ import plotly.express as px
 
 # Set page configuration
 st.set_page_config(
-    page_title="Obesity Risk Analysis Dashboard",
+    page_title="Customer Churn Dashboard",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -22,7 +22,9 @@ df['Exited0'] = df['Exited']
 df['HasCrCard'] = df['HasCrCard0'].replace({1: 'Yes', 0: 'No'})
 df['IsActiveMember'] = df['IsActiveMember0'].replace({1: 'Yes', 0: 'No'})
 df['Exited'] = df['Exited0'].replace({1: 'Yes', 0: 'No'})
-    
+
+
+st.title("🔍 Customer Churn Insights: Understanding Key Drivers of Attrition")
 
 def sunburst_chart():
     """Create a sunburst chart for churn rate by Geography and Gender."""
