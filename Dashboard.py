@@ -99,6 +99,19 @@ def churn_by_balance():
     fig.update_layout(xaxis_title="Churn Status", yaxis_title="Percentage of Customers")
     return fig
 
+
+
+def churn_by_tenure()
+    churn_data = df.groupby('Tenure')['Exited0'].agg(['count', 'sum']).reset_index()
+    churn_data['Churn_Rate'] = churn_data['sum'] / churn_data['count']  # Churn Rate = Churned / Total
+
+    # Line Chart
+    fig = px.line(churn_data, x='Tenure', y='Churn_Rate', 
+              title="Churn Rate vs. Tenure",
+              labels={'Churn_Rate': 'Churn Rate', 'Tenure': 'Tenure (Years)'},
+              markers=True)
+    return fig
+
 # ============================================
 # Dashboard Layout
 # ============================================
