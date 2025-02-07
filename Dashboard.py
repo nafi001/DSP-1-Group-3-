@@ -117,7 +117,7 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.metric("Total Customers", f"{len(df):,}")
 with col2:
-    churn_rate = df['Exited'].mean() * 100
+    churn_rate = df['Exited0'].mean() * 100
     st.metric("Overall Churn Rate", f"{churn_rate:.1f}%")
 with col3:
     st.metric("Average Tenure", f"{df['Tenure'].mean():.1f} years")
