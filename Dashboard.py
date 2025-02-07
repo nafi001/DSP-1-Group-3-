@@ -160,10 +160,10 @@ with col2:
 st.header("📌 Supplementary Metrics")
 col1, col2, col3 = st.columns(3)
 with col1:
-    active_rate = df['IsActiveMember'].mean() * 100
+    active_rate = df['IsActiveMember0'].mean() * 100
     st.metric("Active Members", f"{active_rate:.1f}%")
 with col2:
-    credit_card_holders = df['HasCrCard'].mean() * 100
+    credit_card_holders = df['HasCrCard0'].mean() * 100
     st.metric("Credit Card Holders", f"{credit_card_holders:.1f}%")
 with col3:
     avg_products = df['NumOfProducts'].mean()
