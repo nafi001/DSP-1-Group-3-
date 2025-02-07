@@ -60,8 +60,8 @@ with col2:
 
 # Section 2: Churn Rate by Geography and Gender
 st.subheader('Churn Rate by Geography and Gender')
-churn_by_geography_gender = df.groupby(['Geography', 'Gender'])['Exited0'].mean().reset_index()
-churn_by_geography_gender['ChurnRate'] = churn_by_geography_gender['Exited0'] * 100
+churn_by_geography_gender = df.groupby(['Geography', 'Gender'])['Exited'].mean().reset_index()
+churn_by_geography_gender['ChurnRate'] = churn_by_geography_gender['Exited'] * 100
 fig_geo_gender = px.sunburst(churn_by_geography_gender, 
                             path=['Geography', 'Gender'], 
                             values='ChurnRate', 
