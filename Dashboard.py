@@ -2,30 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# Load the dataset (assuming df is your DataFrame)
-df = pd.read_csv('Churn_Modelling.csv')  # Adjust file path accordingly
-
-
-
-
-
-
-
-# Load Data
-@st.cache_data
-def load_data():
-    df['HasCrCard0'] = df['HasCrCard']
-    df['IsActiveMember0'] = df['IsActiveMember']
-    df['Exited0'] = df['Exited']
-
-    df['HasCrCard'] = df['HasCrCard0'].replace({1: 'Yes', 0: 'No'})
-    df['IsActiveMember'] = df['IsActiveMember0'].replace({1: 'Yes', 0: 'No'})
-    df['Exited'] = df['Exited0'].replace({1: 'Yes', 0: 'No'})
-    
-    return df
-
-
-df = load_data()
 # Set page configuration
 st.set_page_config(
     page_title="Obesity Risk Analysis Dashboard",
@@ -35,7 +11,7 @@ st.set_page_config(
 )
 @st.cache_data
 def load_data():
-    return pd.read_csv('ObesityDataSet_raw_and_data_sinthetic.csv')
+    return pd.read_csv('Churn_Modelling.csv')
 
 df = load_data()
 
