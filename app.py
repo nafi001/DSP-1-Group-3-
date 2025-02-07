@@ -90,9 +90,3 @@ if st.button('Predict', use_container_width=True):
     else:
         st.markdown('<p class="prediction-text">The customer is not likely to churn. <i class="fas fa-check-circle"></i></p>', unsafe_allow_html=True)
 
-# Add a footer section with developer information
-st.markdown('---')
-st.markdown('<p class="footer-text">Developed by Your Name <i class="fas fa-laptop-code"></i></p>', unsafe_allow_html=True)
-
-# Optionally, you can add a logo or a professional image at the top
-# st.image("your_image_url.jpg", width=100)
