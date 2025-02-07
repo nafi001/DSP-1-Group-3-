@@ -49,7 +49,7 @@ def sunburst_chart(df):
                       color='ChurnRate', color_continuous_scale='RdBu',
                       title="Sunburst Chart of Churn Rate by Geography and Gender",
                       labels={'ChurnRate': 'Churn Rate (%)'})
-     return fig
+    return fig
 
 def bar_chart_geography_gender(df):
     """Create a clustered bar chart for churn rate by Geography and Gender."""
