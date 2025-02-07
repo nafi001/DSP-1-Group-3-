@@ -14,14 +14,16 @@ df = pd.read_csv('Churn_Modelling.csv')  # Adjust file path accordingly
 # Load Data
 @st.cache_data
 def load_data():
-  df['HasCrCard0'] = df['HasCrCard']
-  df['IsActiveMember0'] = df['IsActiveMember']
-  df['Exited0'] = df['Exited']
+    df['HasCrCard0'] = df['HasCrCard']
+    df['IsActiveMember0'] = df['IsActiveMember']
+    df['Exited0'] = df['Exited']
 
-  df['HasCrCard'] = df['HasCrCard0'].replace({1: 'Yes', 0: 'No'})
-  df['IsActiveMember'] = df['IsActiveMember0'].replace({1: 'Yes', 0: 'No'})
-  df['Exited'] = df['Exited0'].replace({1: 'Yes', 0: 'No'})
+    df['HasCrCard'] = df['HasCrCard0'].replace({1: 'Yes', 0: 'No'})
+    df['IsActiveMember'] = df['IsActiveMember0'].replace({1: 'Yes', 0: 'No'})
+    df['Exited'] = df['Exited0'].replace({1: 'Yes', 0: 'No'})
+    
     return df
+
 
 df = load_data()
 
