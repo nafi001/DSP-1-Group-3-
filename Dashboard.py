@@ -27,7 +27,7 @@ avg_credit_score_churned = df[df['Exited0'] == 'Yes']['CreditScore'].mean()
 
 # Proportion of Active Members Who Churned
 active_members = df[df['IsActiveMember0'] == 'Yes']
-proportion_active_churned = (active_members['Exited0'].sum() / len(active_members)) * 100
+proportion_active_churned = (active_members['Exited'].sum() / len(active_members)) * 100
 
 # Average Tenure of Churned vs Non-Churned Customers
 avg_tenure_churned = df[df['Exited0'] == 'Yes']['Tenure'].mean()
@@ -38,8 +38,8 @@ avg_balance_churned = df[df['Exited0'] == 'Yes']['Balance'].mean()
 avg_balance_non_churned = df[df['Exited0'] == 'No']['Balance'].mean()
 
 # Churn Rate by Number of Products
-churn_by_products = df.groupby('NumOfProducts')['Exited0'].mean().reset_index()
-churn_by_products['ChurnRate'] = churn_by_products['Exited0'] * 100
+churn_by_products = df.groupby('NumOfProducts')['Exited'].mean().reset_index()
+churn_by_products['ChurnRate'] = churn_by_products['Exited'] * 100
 
 # Streamlit Dashboard Layout
 st.title('Customer Churn Analysis Dashboard')
