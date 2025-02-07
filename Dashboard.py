@@ -24,7 +24,7 @@ df['IsActiveMember'] = df['IsActiveMember0'].replace({1: 'Yes', 0: 'No'})
 df['Exited'] = df['Exited0'].replace({1: 'Yes', 0: 'No'})
     
 
-def sunburst_chart(df):
+def sunburst_chart():
     """Create a sunburst chart for churn rate by Geography and Gender."""
     churn_data = df.groupby(['Geography', 'Gender'])['Exited0'].mean().reset_index()
     churn_data['ChurnRate'] = churn_data['Exited0'] * 100
@@ -34,7 +34,7 @@ def sunburst_chart(df):
                       labels={'ChurnRate': 'Churn Rate (%)'})
     return fig
 
-def bar_chart_geography_gender(df):
+def bar_chart_geography_gender():
     """Create a clustered bar chart for churn rate by Geography and Gender."""
     churn_data = df.groupby(['Geography', 'Gender'])['Exited0'].mean().reset_index()
     churn_data['ChurnRate'] = churn_data['Exited0'] * 100
@@ -43,12 +43,12 @@ def bar_chart_geography_gender(df):
                  labels={'ChurnRate': 'Churn Rate (%)'})
     return fig
 
-def churn_pie_chart(df):
+def churn_pie_chart():
     """Create a pie chart showing the churn distribution."""
     fig = px.pie(df, names='Exited', title='Churn Distribution')
     return fig
 
-def churn_by_age_group(df):
+def churn_by_age_group():
     """Create a stacked bar chart for churn rate by age group."""
     age_bins = [18, 25, 35, 45, 55, 65, 75, 85, 95]
     age_labels = ['18-25', '25-35', '35-45', '45-55', '55-65', '65-75', '75-85', '85-95']
@@ -64,7 +64,7 @@ def churn_by_age_group(df):
     fig.update_layout(yaxis_tickformat='.2f%%')
     return fig
 
-def churn_by_products(df):
+def churn_by_products():
     """Create a histogram for churn rate by the number of products."""
     fig = px.histogram(df, x='NumOfProducts', color='Exited', 
                        barmode='group', text_auto=True, 
@@ -72,14 +72,14 @@ def churn_by_products(df):
                        histnorm='percent')
     return fig
 
-def churn_vs_balance(df):
+def churn_vs_balance():
     """Create a density contour plot of churn rate by Age and Balance."""
     fig = px.density_contour(df, x='Age', y='Balance', color='Exited',
                              title="Age vs. Balance Density with Churn",
                              labels={'Exited': 'Churn Status'})
     return fig
 
-def churn_by_tenure(df):
+def churn_by_tenure():
     """Create a line chart for churn rate vs. tenure."""
     churn_data = df.groupby('Tenure')['Exited0'].agg(['count', 'sum']).reset_index()
     churn_data['Churn_Rate'] = churn_data['sum'] / churn_data['count']
@@ -89,7 +89,7 @@ def churn_by_tenure(df):
                   markers=True)
     return fig
 
-def churn_by_balance(df):
+def churn_by_balance():
     """Create a bar chart for churn rate by Zero vs. Non-Zero Balance."""
     df['ZeroBalance'] = df['Balance'].apply(lambda x: 1 if x == 0 else 0)
     balance_churn_data = df.groupby(['Exited', 'ZeroBalance']).size().reset_index(name='Count')
@@ -128,33 +128,33 @@ with col4:
 st.header("🔍 Churn Overview")
 col1, col2 = st.columns([2, 3])
 with col1:
-    st.plotly_chart(churn_pie_chart(df), use_container_width=True)
+    st.plotly_chart(churn_pie_chart(), use_container_width=True)
 with col2:
-    st.plotly_chart(churn_by_tenure(df), use_container_width=True)
+    st.plotly_chart(churn_by_tenure(), use_container_width=True)
 
 # Row 3: Demographic Analysis
 st.header("👥 Demographic Breakdown")
 col1, col2 = st.columns(2)
 with col1:
-    st.plotly_chart(sunburst_chart(df), use_container_width=True)
+    st.plotly_chart(sunburst_chart(), use_container_width=True)
 with col2:
-    st.plotly_chart(bar_chart_geography_gender(df), use_container_width=True)
+    st.plotly_chart(bar_chart_geography_gender(), use_container_width=True)
 
 # Row 4: Customer Profile Analysis
 st.header("📈 Customer Profile Insights")
 col1, col2 = st.columns(2)
 with col1:
-    st.plotly_chart(churn_by_age_group(df), use_container_width=True)
+    st.plotly_chart(churn_by_age_group(), use_container_width=True)
 with col2:
-    st.plotly_chart(churn_vs_balance(df), use_container_width=True)
+    st.plotly_chart(churn_vs_balance(), use_container_width=True)
 
 # Row 5: Product & Financial Analysis
 st.header("💳 Product & Financial Patterns")
 col1, col2 = st.columns(2)
 with col1:
-    st.plotly_chart(churn_by_products(df), use_container_width=True)
+    st.plotly_chart(churn_by_products(), use_container_width=True)
 with col2:
-    st.plotly_chart(churn_by_balance(df), use_container_width=True)
+    st.plotly_chart(churn_by_balance(), use_container_width=True)
 
 # Row 6: Additional Metrics
 st.header("📌 Supplementary Metrics")
