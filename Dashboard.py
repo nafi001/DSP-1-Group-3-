@@ -5,105 +5,106 @@ import plotly.express as px
 # Load the dataset (assuming df is your DataFrame)
 df = pd.read_csv('Churn_Modelling.csv')  # Adjust file path accordingly
 
-# Data Preprocessing (converting binary columns to 'Yes'/'No' labels)
-df['HasCrCard0'] = df['HasCrCard'].replace({1: 'Yes', 0: 'No'})
-df['IsActiveMember0'] = df['IsActiveMember'].replace({1: 'Yes', 0: 'No'})
-df['Exited0'] = df['Exited'].replace({1: 'Yes', 0: 'No'})
+# Convert categorical columns back to numeric for analysis
+df['Exited0'] = df['Exited'].replace({'No': 0, 'Yes': 1})
+df['IsActiveMember0'] = df['IsActiveMember'].replace({'No': 0, 'Yes': 1})
 
-# Overall Churn Rate
-total_customers = len(df)
-total_exited = df['Exited'].sum()
-overall_churn_rate = (total_exited / total_customers) * 100
+def calculate_kpis(df):
+    total_customers = len(df)
+    total_exited = df['Exited0'].sum()
+    churn_rate = (total_exited / total_customers) * 100
+    avg_age_churned = df[df['Exited0'] == 1]['Age'].mean()
+    avg_credit_churned = df[df['Exited0'] == 1]['CreditScore'].mean()
+    active_churn_proportion = df[df['Exited0'] == 1]['IsActiveMember0'].mean() * 100
+    avg_tenure_churned = df[df['Exited0'] == 1]['Tenure'].mean()
+    avg_tenure_not_churned = df[df['Exited0'] == 0]['Tenure'].mean()
+    avg_balance_churned = df[df['Exited0'] == 1]['Balance'].mean()
+    avg_balance_not_churned = df[df['Exited0'] == 0]['Balance'].mean()
+    
+    return {
+        'Overall Churn Rate': churn_rate,
+        'Avg Age of Churned': avg_age_churned,
+        'Avg Credit Score of Churned': avg_credit_churned,
+        'Proportion of Active Churned': active_churn_proportion,
+        'Avg Tenure (Churned)': avg_tenure_churned,
+        'Avg Tenure (Not Churned)': avg_tenure_not_churned,
+        'Avg Balance (Churned)': avg_balance_churned,
+        'Avg Balance (Not Churned)': avg_balance_not_churned
+    }
 
-# Churn Rate by Country
-churn_by_country = df.groupby('Geography')['Exited'].mean().reset_index()
-churn_by_country['ChurnRate'] = churn_by_country['Exited'] * 100
+# Sidebar
+st.sidebar.title("Customer Churn Analysis")
+segment = st.sidebar.radio("Select Analysis Category", [
+    "KPIs", "Demographics", "Banking Behavior", "Product Engagement"
+])
 
-# Average Age of Churned Customers
-avg_age_churned = df[df['Exited0'] == 'Yes']['Age'].mean()
+# KPIs
+kpis = calculate_kpis(df)
+if segment == "KPIs":
+    st.title("Key Performance Indicators")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Overall Churn Rate", f"{kpis['Overall Churn Rate']:.2f}%")
+    col2.metric("Avg Age of Churned", f"{kpis['Avg Age of Churned']:.1f} years")
+    col3.metric("Avg Credit Score (Churned)", f"{kpis['Avg Credit Score of Churned']:.1f}")
+    col1.metric("Active Members Churned", f"{kpis['Proportion of Active Churned']:.2f}%")
+    col2.metric("Avg Tenure (Churned)", f"{kpis['Avg Tenure (Churned'):.1f} years")
+    col3.metric("Avg Balance (Churned)", f"${kpis['Avg Balance (Churned)']:.2f}")
 
-# Average Credit Score of Churned Customers
-avg_credit_score_churned = df[df['Exited0'] == 'Yes']['CreditScore'].mean()
+# Demographics Analysis
+elif segment == "Demographics":
+    st.title("Churn by Geography & Gender")
+    churn_data = df.groupby(['Geography', 'Gender'])['Exited0'].mean().reset_index()
+    churn_data['ChurnRate'] = churn_data['Exited0'] * 100
+    fig1 = px.sunburst(churn_data, path=['Geography', 'Gender'], values='ChurnRate',
+                        color='ChurnRate', color_continuous_scale='RdBu',
+                        title="Churn Rate by Geography & Gender")
+    st.plotly_chart(fig1)
+    
+    fig2 = px.bar(churn_data, x='Geography', y='ChurnRate', color='Gender',
+                  title="Churn Rate by Geography and Gender", barmode='group')
+    st.plotly_chart(fig2)
 
-# Proportion of Active Members Who Churned
-active_members = df[df['IsActiveMember0'] == 'Yes']
-proportion_active_churned = (active_members['Exited'].sum() / len(active_members)) * 100
+# Banking Behavior
+elif segment == "Banking Behavior":
+    st.title("Banking Behavior and Churn")
+    
+    # Churn by Number of Products
+    fig3 = px.histogram(df, x='NumOfProducts', color='Exited',
+                        barmode='group', title="Churn Rate by Number of Products")
+    st.plotly_chart(fig3)
+    
+    # Churn Rate by Balance
+    fig4 = px.density_contour(df, x='Age', y='Balance', color='Exited',
+                              title="Age vs. Balance Density with Churn")
+    st.plotly_chart(fig4)
+    
+    # Churn Rate vs Tenure
+    tenure_churn = df.groupby('Tenure')['Exited0'].mean().reset_index()
+    fig5 = px.line(tenure_churn, x='Tenure', y='Exited0',
+                   title="Churn Rate vs Tenure", markers=True)
+    st.plotly_chart(fig5)
 
-# Average Tenure of Churned vs Non-Churned Customers
-avg_tenure_churned = df[df['Exited0'] == 'Yes']['Tenure'].mean()
-avg_tenure_non_churned = df[df['Exited0'] == 'No']['Tenure'].mean()
+# Product Engagement
+elif segment == "Product Engagement":
+    st.title("Product Engagement and Churn")
+    
+    # Churn Rate by Age Group
+    age_bins = [18, 25, 35, 45, 55, 65, 75, 85, 95]
+    age_labels = ['18-25', '25-35', '35-45', '45-55', '55-65', '65-75', '75-85', '85-95']
+    df['AgeGroup'] = pd.cut(df['Age'], bins=age_bins, labels=age_labels, right=False)
+    age_group_churn = df.groupby(['AgeGroup', 'Exited']).size().reset_index(name='Count')
+    fig6 = px.bar(age_group_churn, x='AgeGroup', y='Count', color='Exited',
+                  title="Churn Rate by Age Group", barmode='stack')
+    st.plotly_chart(fig6)
+    
+    # Churn Rate by Zero vs Non-Zero Balance
+    df['ZeroBalance'] = df['Balance'].apply(lambda x: 1 if x == 0 else 0)
+    balance_churn = df.groupby(['Exited', 'ZeroBalance']).size().reset_index(name='Count')
+    balance_churn['Exited'] = balance_churn['Exited'].map({'No': 'No', 'Yes': 'Yes'})
+    balance_churn['ZeroBalance'] = balance_churn['ZeroBalance'].map({0: 'Non-Zero Balance', 1: 'Zero Balance'})
+    fig7 = px.bar(balance_churn, x='Exited', y='Count', color='ZeroBalance',
+                  barmode='group', title="Churn by Zero vs Non-Zero Balance")
+    st.plotly_chart(fig7)
 
-# Average Balance of Churned vs Non-Churned Customers
-avg_balance_churned = df[df['Exited0'] == 'Yes']['Balance'].mean()
-avg_balance_non_churned = df[df['Exited0'] == 'No']['Balance'].mean()
-
-# Churn Rate by Number of Products
-churn_by_products = df.groupby('NumOfProducts')['Exited'].mean().reset_index()
-churn_by_products['ChurnRate'] = churn_by_products['Exited'] * 100
-
-# Streamlit Dashboard Layout
-st.title('Customer Churn Analysis Dashboard')
-
-# Section 1: KPIs
-st.subheader('Key Performance Indicators (KPIs)')
-col1, col2 = st.columns(2)
-with col1:
-    st.metric('Overall Churn Rate (%)', f"{overall_churn_rate:.2f}")
-    st.metric('Average Age of Churned Customers', f"{avg_age_churned:.2f} years")
-    st.metric('Average Credit Score of Churned Customers', f"{avg_credit_score_churned:.2f}")
-    st.metric('Proportion of Active Members Who Churned (%)', f"{proportion_active_churned:.2f}")
-with col2:
-    st.metric('Average Tenure (Churned)', f"{avg_tenure_churned:.2f} years")
-    st.metric('Average Tenure (Non-Churned)', f"{avg_tenure_non_churned:.2f} years")
-    st.metric('Average Balance (Churned)', f"${avg_balance_churned:,.2f}")
-    st.metric('Average Balance (Non-Churned)', f"${avg_balance_non_churned:,.2f}")
-
-# Section 2: Churn Rate by Geography and Gender
-st.subheader('Churn Rate by Geography and Gender')
-churn_by_geography_gender = df.groupby(['Geography', 'Gender'])['Exited0'].mean().reset_index()
-churn_by_geography_gender['ChurnRate'] = churn_by_geography_gender['Exited0'] * 100
-fig_geo_gender = px.sunburst(churn_by_geography_gender, 
-                            path=['Geography', 'Gender'], 
-                            values='ChurnRate', 
-                            color='ChurnRate', 
-                            color_continuous_scale='Blues', 
-                            title="Churn Rate by Geography and Gender")
-st.plotly_chart(fig_geo_gender)
-
-# Section 3: Churn Rate by Number of Products
-st.subheader('Churn Rate by Number of Products')
-fig_products = px.bar(churn_by_products, 
-                      x='NumOfProducts', 
-                      y='ChurnRate', 
-                      title="Churn Rate by Number of Products", 
-                      labels={'ChurnRate': 'Churn Rate (%)'})
-st.plotly_chart(fig_products)
-
-# Section 4: Churn Rate by Age Group
-st.subheader('Churn Rate by Age Group')
-age_bins = [18, 25, 35, 45, 55, 65, 75, 85, 95]
-age_labels = ['18-25', '25-35', '35-45', '45-55', '55-65', '65-75', '75-85', '85-95']
-df['AgeGroup'] = pd.cut(df['Age'], bins=age_bins, labels=age_labels, right=False)
-
-age_group_churn = df.groupby(['AgeGroup', 'Exited0']).size().reset_index(name='Count')
-total_counts = df.groupby('AgeGroup').size().reset_index(name='TotalCount')
-age_group_churn = age_group_churn.merge(total_counts, on='AgeGroup')
-age_group_churn['Percentage'] = age_group_churn['Count'] / age_group_churn['TotalCount'] * 100
-
-fig_age_group = px.bar(age_group_churn, 
-                       x='AgeGroup', 
-                       y='Percentage', 
-                       color='Exited0', 
-                       title="Churn Rate by Age Group", 
-                       labels={'Percentage': 'Percentage of Customers'}, 
-                       text_auto='.2f', barmode='stack')
-fig_age_group.update_layout(yaxis_tickformat='.2f%%')
-st.plotly_chart(fig_age_group)
-
-# Section 5: Customer Churn Distribution
-st.subheader('Churn Distribution')
-fig_churn_dist = px.pie(df, names='Exited0', title='Customer Churn Distribution')
-st.plotly_chart(fig_churn_dist)
-
-# Add additional sections or plots as needed
+st.sidebar.info("This dashboard provides insights into customer churn trends and factors influencing customer exit.")
 
