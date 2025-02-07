@@ -29,7 +29,7 @@ def sunburst_chart():
     churn_data = df.groupby(['Geography', 'Gender'])['Exited0'].mean().reset_index()
     churn_data['ChurnRate'] = churn_data['Exited0'] * 100
     fig = px.sunburst(churn_data, path=['Geography', 'Gender'], values='ChurnRate',
-                      color='ChurnRate', color_continuous_scale='RdBu',
+                      color='ChurnRate', color_continuous_scale='Blues',
                       title="Sunburst Chart of Churn Rate by Geography and Gender",
                       labels={'ChurnRate': 'Churn Rate (%)'})
     return fig
@@ -40,7 +40,8 @@ def bar_chart_geography_gender():
     churn_data['ChurnRate'] = churn_data['Exited0'] * 100
     fig = px.bar(churn_data, x='Geography', y='ChurnRate', color='Gender',
                  barmode='group', title="Churn Rate by Geography and Gender",
-                 labels={'ChurnRate': 'Churn Rate (%)'})
+                 labels={'ChurnRate': 'Churn Rate (%)'},
+                 color_discrete_sequence=px.colors.qualitative.Plotly))
     return fig
 
 def churn_pie_chart():
@@ -59,6 +60,7 @@ def churn_by_age_group():
     age_group_churn['Percentage'] = age_group_churn['Count'] / age_group_churn['TotalCount'] * 100
     fig = px.bar(age_group_churn, x='AgeGroup', y='Percentage', color='Exited',
                  title="Churn Rate by Age Group",
+                 color_discrete_sequence=px.colors.qualitative.Plotly),
                  labels={'Exited': 'Churn Status', 'Percentage': 'Percentage'},
                  text_auto='.2f', barmode='stack')
     fig.update_layout(yaxis_tickformat='.2f%%')
@@ -69,6 +71,7 @@ def churn_by_products():
     fig = px.histogram(df, x='NumOfProducts', color='Exited', 
                        barmode='group', text_auto=True, 
                        title="Churn Rate by Number of Products",
+                       color_discrete_sequence=px.colors.qualitative.Plotly),
                        histnorm='percent')
     return fig
 
@@ -76,6 +79,7 @@ def churn_vs_balance():
     """Create a density contour plot of churn rate by Age and Balance."""
     fig = px.density_contour(df, x='Age', y='Balance', color='Exited',
                              title="Age vs. Balance Density with Churn",
+                             color_discrete_sequence=px.colors.qualitative.Plotly),
                              labels={'Exited': 'Churn Status'})
     return fig
 
