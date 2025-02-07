@@ -85,7 +85,7 @@ input_data = pd.DataFrame({
 # Prediction and output display
 if st.button('Predict', use_container_width=True):
     prediction = model.predict(input_data)
-    if prediction[0] == "Yes":
+    if prediction[0] == 1:
         st.markdown('<p class="prediction-text">The customer is likely to churn. <i class="fas fa-exclamation-triangle"></i></p>', unsafe_allow_html=True)
     else:
         st.markdown('<p class="prediction-text">The customer is not likely to churn. <i class="fas fa-check-circle"></i></p>', unsafe_allow_html=True)
