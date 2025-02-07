@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 
 # Load the dataset (assuming df is your DataFrame)
-df = pd.read_csv('your_data.csv')  # Adjust file path accordingly
+df = pd.read_csv('Churn_Modelling.csv')  # Adjust file path accordingly
 
 # Data Preprocessing (converting binary columns to 'Yes'/'No' labels)
 df['HasCrCard0'] = df['HasCrCard'].replace({1: 'Yes', 0: 'No'})
