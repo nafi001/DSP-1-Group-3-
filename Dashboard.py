@@ -29,7 +29,7 @@ def sunburst_chart():
     churn_data = df.groupby(['Geography', 'Gender'])['Exited0'].mean().reset_index()
     churn_data['ChurnRate'] = churn_data['Exited0'] * 100
     fig = px.sunburst(churn_data, path=['Geography', 'Gender'], values='ChurnRate',
-                      color='ChurnRate', color_continuous_scale='Plotly',  # Updated color scale
+                      color='ChurnRate', color_continuous_scale='Blues',  # Updated color scale
                       title="Sunburst Chart of Churn Rate by Geography and Gender",
                       labels={'ChurnRate': 'Churn Rate (%)'})
     return fig
