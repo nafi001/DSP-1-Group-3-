@@ -12,11 +12,11 @@ df['Exited0'] = df['Exited'].replace({1: 'Yes', 0: 'No'})
 
 # Overall Churn Rate
 total_customers = len(df)
-total_exited = df['Exited0'].sum()
+total_exited = df['Exited'].sum()
 overall_churn_rate = (total_exited / total_customers) * 100
 
 # Churn Rate by Country
-churn_by_country = df.groupby('Geography')['Exited0'].mean().reset_index()
+churn_by_country = df.groupby('Geography')['Exited'].mean().reset_index()
 churn_by_country['ChurnRate'] = churn_by_country['Exited0'] * 100
 
 # Average Age of Churned Customers
