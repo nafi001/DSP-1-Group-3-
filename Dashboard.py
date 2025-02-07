@@ -121,15 +121,13 @@ def churn_by_tenure():
 
 # Row 1: Key Performance Indicators
 st.header("📊 Key Performance Indicators")
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 with col1:
     st.metric("Total Customers", f"{len(df):,}")
 with col2:
     churn_rate = df['Exited0'].mean() * 100
     st.metric("Overall Churn Rate", f"{churn_rate:.1f}%")
 with col3:
-    st.metric("Churn Rate by Country", f"{df.groupby("Geography")["Exited0"].mean() * 100:.1f} years")
-with col4:
     st.metric("Average Credit Score of Churned Customers", f"${df[df["Exited0"] == 1]["CreditScore"].mean():,.2f}")
 
 # Row 2: Churn Overview
