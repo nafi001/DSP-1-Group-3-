@@ -167,12 +167,36 @@ with col2:
 # Row 6: Additional Metrics
 st.header("📌 Supplementary Metrics")
 col1, col2, col3 = st.columns(3)
+
 with col1:
     active_rate = df['IsActiveMember0'].mean() * 100
     st.metric("Active Members", f"{active_rate:.1f}%")
+
 with col2:
     credit_card_holders = df['HasCrCard0'].mean() * 100
     st.metric("Credit Card Holders", f"{credit_card_holders:.1f}%")
+
 with col3:
     avg_products = df['NumOfProducts'].mean()
     st.metric("Avg Products/Customer", f"{avg_products:.1f}")
+
+st.header("📊 Churn Metrics")
+col4, col5, col6 = st.columns(3)
+
+with col4:
+    avg_tenure_churned = df[df["Exited0"] == 1]["Tenure"].mean()
+    avg_tenure_non_churned = df[df["Exited0"] == 0]["Tenure"].mean()
+    st.metric("Avg Tenure (Churned)", f"{avg_tenure_churned:.1f} years")
+    st.metric("Avg Tenure (Non-Churned)", f"{avg_tenure_non_churned:.1f} years")
+
+with col5:
+    avg_balance_churned = df[df["Exited0"] == 1]["Balance"].mean()
+    avg_balance_non_churned = df[df["Exited0"] == 0]["Balance"].mean()
+    st.metric("Avg Balance (Churned)", f"${avg_balance_churned:,.0f}")
+    st.metric("Avg Balance (Non-Churned)", f"${avg_balance_non_churned:,.0f}")
+
+with col6:
+    churn_by_products = df.groupby("NumOfProducts")["Exited0"].mean() * 100
+    churn_product_dict = churn_by_products.to_dict()
+    churn_product_text = ", ".join([f"{k}: {v:.1f}%" for k, v in churn_product_dict.items()])
+    st.metric("Churn by Products", churn_product_text)
