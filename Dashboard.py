@@ -128,9 +128,9 @@ with col2:
     churn_rate = df['Exited0'].mean() * 100
     st.metric("Overall Churn Rate", f"{churn_rate:.1f}%")
 with col3:
-    st.metric("Average Tenure", f"{df['Tenure'].mean():.1f} years")
+    st.metric("Churn Rate by Country", f"{df.groupby("Geography")["Exited0"].mean() * 100:.1f} years")
 with col4:
-    st.metric("Average Balance", f"${df['Balance'].mean():,.2f}")
+    st.metric("Average Credit Score of Churned Customers", f"${df[df["Exited0"] == 1]["CreditScore"].mean():,.2f}")
 
 # Row 2: Churn Overview
 st.header("🔍 Churn Overview")
