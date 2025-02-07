@@ -39,7 +39,7 @@ def bar_chart_geography_gender():
     churn_data = df.groupby(['Geography', 'Gender'])['Exited0'].mean().reset_index()
     churn_data['ChurnRate'] = churn_data['Exited0'] * 100
     fig = px.bar(churn_data, x='Geography', y='ChurnRate', color='Gender',
-                 barmode='group', title="Churn Rate by Geography and Gender",
+                 barmode='group', title="Churn Rate by Geography and Gender",text_auto='.2f,
                  labels={'ChurnRate': 'Churn Rate (%)'},
                  color_discrete_sequence=px.colors.qualitative.Plotly)  # Updated color scale
     return fig
