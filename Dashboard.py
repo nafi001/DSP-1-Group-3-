@@ -164,6 +164,26 @@ with col1:
 with col2:
     st.plotly_chart(bar_chart_geography_gender(), use_container_width=True)
     
+
+st.header("📊 Churn Metrics")
+col4, col5= st.columns(2)
+
+with col4:
+    avg_tenure_churned = df[df["Exited0"] == 1]["Tenure"].mean()
+    avg_tenure_non_churned = df[df["Exited0"] == 0]["Tenure"].mean()
+    st.metric("Avg Tenure (Churned)", f"{avg_tenure_churned:.1f} years")
+    st.metric("Avg Tenure (Non-Churned)", f"{avg_tenure_non_churned:.1f} years")
+
+with col5:
+    avg_balance_churned = df[df["Exited0"] == 1]["Balance"].mean()
+    avg_balance_non_churned = df[df["Exited0"] == 0]["Balance"].mean()
+    st.metric("Avg Balance (Churned)", f"${avg_balance_churned:,.0f}")
+    st.metric("Avg Balance (Non-Churned)", f"${avg_balance_non_churned:,.0f}")
+
+
+
+
+
 # Row 6: Additional Metrics
 st.header("📌 Supplementary Metrics")
 col1, col2, col3 = st.columns(3)
@@ -180,23 +200,5 @@ with col3:
     avg_products = df['NumOfProducts'].mean()
     st.metric("Avg Products/Customer", f"{avg_products:.1f}")
 
-st.header("📊 Churn Metrics")
-col4, col5, col6 = st.columns(3)
 
-with col4:
-    avg_tenure_churned = df[df["Exited0"] == 1]["Tenure"].mean()
-    avg_tenure_non_churned = df[df["Exited0"] == 0]["Tenure"].mean()
-    st.metric("Avg Tenure (Churned)", f"{avg_tenure_churned:.1f} years")
-    st.metric("Avg Tenure (Non-Churned)", f"{avg_tenure_non_churned:.1f} years")
 
-with col5:
-    avg_balance_churned = df[df["Exited0"] == 1]["Balance"].mean()
-    avg_balance_non_churned = df[df["Exited0"] == 0]["Balance"].mean()
-    st.metric("Avg Balance (Churned)", f"${avg_balance_churned:,.0f}")
-    st.metric("Avg Balance (Non-Churned)", f"${avg_balance_non_churned:,.0f}")
-
-with col6:
-    churn_by_products = df.groupby("NumOfProducts")["Exited0"].mean() * 100
-    churn_product_dict = churn_by_products.to_dict()
-    churn_product_text = ", ".join([f"{k}: {v:.1f}%" for k, v in churn_product_dict.items()])
-    st.metric("Churn by Products", churn_product_text)
