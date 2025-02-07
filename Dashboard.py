@@ -128,12 +128,7 @@ with col2:
     st.plotly_chart(churn_by_tenure(), use_container_width=True)
 
 # Row 3: Demographic Analysis
-st.header("👥 Demographic Breakdown")
-col1, col2 = st.columns(2)
-with col1:
-    st.plotly_chart(sunburst_chart(), use_container_width=True)
-with col2:
-    st.plotly_chart(bar_chart_geography_gender(), use_container_width=True)
+
 
 # Row 4: Customer Profile Analysis
 st.header("📈 Customer Profile Insights")
@@ -151,6 +146,13 @@ with col1:
 with col2:
     st.plotly_chart(churn_by_balance(), use_container_width=True)
 
+st.header("👥 Demographic Breakdown")
+col1, col2 = st.columns(2)
+with col1:
+    st.plotly_chart(sunburst_chart(), use_container_width=True)
+with col2:
+    st.plotly_chart(bar_chart_geography_gender(), use_container_width=True)
+    
 # Row 6: Additional Metrics
 st.header("📌 Supplementary Metrics")
 col1, col2, col3 = st.columns(3)
