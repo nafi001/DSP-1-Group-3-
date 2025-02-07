@@ -33,7 +33,20 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+@st.cache_data
+def load_data():
+    return pd.read_csv('ObesityDataSet_raw_and_data_sinthetic.csv')
 
+df = load_data()
+
+df['HasCrCard0'] = df['HasCrCard']
+df['IsActiveMember0'] = df['IsActiveMember']
+df['Exited0'] = df['Exited']
+
+df['HasCrCard'] = df['HasCrCard0'].replace({1: 'Yes', 0: 'No'})
+df['IsActiveMember'] = df['IsActiveMember0'].replace({1: 'Yes', 0: 'No'})
+df['Exited'] = df['Exited0'].replace({1: 'Yes', 0: 'No'})
+    
 
 def sunburst_chart(df):
     """Create a sunburst chart for churn rate by Geography and Gender."""
