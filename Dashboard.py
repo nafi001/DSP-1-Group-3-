@@ -41,7 +41,7 @@ def bar_chart_geography_gender():
     fig = px.bar(churn_data, x='Geography', y='ChurnRate', color='Gender',
                  barmode='group', title="Churn Rate by Geography and Gender",
                  labels={'ChurnRate': 'Churn Rate (%)'},
-                 color_discrete_sequence=px.colors.qualitative.Plotly))
+                 color_discrete_sequence=px.colors.qualitative.Plotly)
     return fig
 
 def churn_pie_chart():
