@@ -101,7 +101,7 @@ def churn_by_balance():
 
 
 
-def churn_by_tenure()
+def churn_by_tenure():
     churn_data = df.groupby('Tenure')['Exited0'].agg(['count', 'sum']).reset_index()
     churn_data['Churn_Rate'] = churn_data['sum'] / churn_data['count']  # Churn Rate = Churned / Total
 
