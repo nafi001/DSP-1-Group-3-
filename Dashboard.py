@@ -79,7 +79,7 @@ def churn_vs_balance():
     """Create a density contour plot of churn rate by Age and Balance."""
     fig = px.density_contour(df, x='Age', y='Balance', color='Exited',
                              title="Age vs. Balance Density with Churn",
-                             color_discrete_sequence=px.colors.qualitative.Plotly),
+                             color_discrete_sequence=px.colors.qualitative.Plotly,
                              labels={'Exited': 'Churn Status'})
     return fig
 
