@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-aaaaaa
-# Set page coaanfiguration
+
+# Set page configuration
 st.set_page_config(
     page_title="Customer Churn Dashboard",
     page_icon="📊",
